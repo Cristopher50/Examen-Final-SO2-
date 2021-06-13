@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: user-app
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: csosa
+  jpa:
+    show-sql: true
+    
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:3030/eureka
+  instance:
+    preferIpAddress: true

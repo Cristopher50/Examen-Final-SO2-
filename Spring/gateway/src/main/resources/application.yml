@@ -1,0 +1,47 @@
+#hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
+#hystrix.command.default.execution.isolation.strategy: THREAD
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+    
+        - id: user-app
+          uri: lb://user-app
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/(?<users>.*), /$\{users}
+#            - AddResponseHeader=X-Some-Header, discovery.com
+          
+
+
+
+server:
+  port: 5050
+
+#  discovery server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:3030/eureka
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        #include: hystrix.stream
+
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.cloud.gateway: DEBUG
